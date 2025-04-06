@@ -1,0 +1,26 @@
+---
+title: "Untitled"
+author: "Xuanlang Ye"
+date: "2025-04-03"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(umap)
+
+df <- read_csv("resnet_features.csv")
+features <- df %>% select(-filename)
+
+umap_result <- umap(features)
+df_umap <- as_tibble(umap_result$layout) %>%
+  mutate(Image = df$filename)
+
+ggplot(df_umap, aes(x = V1, y = V2)) +
+  geom_point(alpha = 0.7) +
+  labs(title = "IRF7+ DC UMAP Clustering", x = "UMAP-1", y = "UMAP-2") +
+  theme_minimal()
+```
+
+
+
